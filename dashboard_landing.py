@@ -7,15 +7,17 @@ import os
 st.set_page_config(page_title="SolarDelta | Free Solar Health Check", page_icon="☀️", layout="centered")
 
 # --- FOUNDER CONTROLS (Sidebar) ---
+st.sidebar.caption("⚙️ Admin Controls")
 if os.path.exists("leads.csv"):
     with open("leads.csv", "r") as f:
-        st.sidebar.caption("⚙️ Admin Controls")
         st.sidebar.download_button(
             label="📥 Download Leads CSV", 
             data=f, 
             file_name="leads.csv", 
             mime="text/csv"
         )
+else:
+    st.sidebar.info("No leads captured yet. Submit a test email below to generate the file!")
 
 st.title("☀️ SolarDelta: Financial Health Check")
 st.markdown("Find out if silent hardware faults or micro-shading are costing you money.")
