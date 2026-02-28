@@ -9,15 +9,15 @@ st.markdown("Find out if silent hardware faults or micro-shading are costing you
 
 # The "Lead Magnet" UI
 st.subheader("Step 1: The 30-Second Quick Check")
-st.markdown("Enter your basic system details below. We will pull the 30-year local weather data from the National Renewable Energy Laboratory (NREL) and tell you exactly what your system *should* have produced last month.")
+st.markdown("Enter your basic system details below. We will use advanced analysis to tell you exactly what your system *should* have produced last month.")
 
 col1, col2, col3 = st.columns(3)
-zip_code = col1.text_input("Zip Code", value="92130")
-system_size = col2.number_input("System Size (kW)", value=8.5, step=0.5)
-actual_kwh = col3.number_input("Last Month's Output (kWh)", value=550, step=50)
+zip_code = col1.text_input("Zip Code", value="")
+system_size = col2.number_input("System Size (kW)", value=0, step=0.5)
+actual_kwh = col3.number_input("Last Month's Output (kWh)", value=0, step=50)
 
 if st.button("Calculate Financial Loss", type="primary"):
-    with st.spinner("Pulling NREL Irradiance Models..."):
+    with st.spinner("Pulling Irradiance Models..."):
         try:
             # We use a rough lat/lon mapping for the MVP demo, or just a default for the zip
             # NREL V8 requires lat/lon. For this MVP, we will use a San Diego default if they leave it, 
@@ -56,7 +56,7 @@ if st.button("Calculate Financial Loss", type="primary"):
             st.subheader("Want the exact cause?")
             st.markdown("Enter your email. I will manually run a deep-dive diagnostic on your inverter data to pinpoint the exact tree, hardware fault, or grime causing the drop.")
             email = st.text_input("Email Address")
-            if st.button("Send me my Free Deep-Dive Report"):
+            if st.button("Send me my Free Solar Production Overview and Analysis"):
                 st.success(f"Request received for {email}! I will email you within 24 hours with instructions on how to share your data.")
                 
         except Exception as e:
