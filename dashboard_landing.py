@@ -56,11 +56,25 @@ if st.button("Calculate Financial Loss", type="primary"):
             st.subheader("Want the exact cause?")
             st.markdown("Enter your email. I will manually run a deep-dive diagnostic on your inverter data to pinpoint the exact tree, hardware fault, or grime causing the drop.")
             email = st.text_input("Email Address")
-            if st.button("Send me my Free Solar Production Overview and Analysis"):
-                st.success(f"Request received for {email}! I will email you within 24 hours with instructions on how to share your data.")
-                
-        except Exception as e:
-            st.error("Error connecting to NREL database. Please try again.")
+            if st.button("Send me my Free Deep-Dive Report"):
+                if email: # Make sure they actually typed something
+                    # 1. Import the date library
+                    import datetime 
+                    
+                    # 2. Open (or create) a CSV file and append the new lead
+                    with open("leads.csv", "a") as file:
+                        file.write(f"{datetime.datetime.now()},{email},{zip_code},{system_size},{actual_kwh},{financial_loss:.2f}\n")
+                    
+                    st.success(f"Request received for {email}! I will email you within 24 hours with instructions on how to share your data.")
+                else:
+                    st.error("Please enter a valid email address.")
 
 st.divider()
 st.caption("Privacy: We do not store your data. Calculations are done in real-time.")
+# --- FOUNDER CONTROLS ---
+import os
+if os.path.exists("leads.csv"):
+    with open("leads.csv", "r") as f:
+        st.sidebar.divider()
+        st.sidebar.caption("Admin Controls")
+        st.sidebar.download_button("📥 Download Leads CSV", f, file_name="leads.csv", mime="text/csv")
