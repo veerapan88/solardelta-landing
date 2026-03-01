@@ -17,7 +17,6 @@ zip_code = col1.text_input("Zip Code", value="92130")
 system_size = col2.number_input("System Size (kW)", value=14.0, step=0.5)
 actual_kwh = col3.number_input("Last Month's Output (kWh)", value=550, step=50)
 
-# Initialize session state so the results stay on screen
 if 'calculated' not in st.session_state:
     st.session_state['calculated'] = False
 
@@ -60,22 +59,4 @@ if st.session_state['calculated']:
             st.error("Error connecting to NREL database. Please try again.")
             financial_loss = 0.0
 
-    # The Lead Capture Form
     st.subheader("Want the exact cause?")
-    st.markdown("Enter your email. I will manually run a deep-dive diagnostic on your inverter data to pinpoint the exact tree, hardware fault, or grime causing the drop.")
-    
-    with st.form("lead_capture_form"):
-        email = st.text_input("Email Address")
-        submitted = st.form_submit_button("Send me my Free Deep-Dive Report")
-        
-        if submitted:
-            if email:
-                # 1. Save it to the hidden CSV as a backup
-                with open("leads.csv", "a") as file:
-                    file.write(f"{datetime.datetime.now()},{email},{zip_code},{system_size},{actual_kwh},{financial_loss:.2f}\n")
-                
-                # 2. THE BACKEND LOG DUMP (Invisible to users)
-                print("\n" + "="*50)
-                print(f"🚨 NEW LEAD CAPTURED: {email}")
-                print(f"📍 Zip: {zip_code} | ⚡ System: {system_size}kW")
-                print(f"📉 Actual: {actual_kwh}kWh | 💸 Est Loss: ${financial_loss:.2f
