@@ -6,7 +6,16 @@ import os
 
 st.set_page_config(page_title="SolarDelta | Free Solar Health Check", page_icon="☀️", layout="centered")
 
+st.title("☀️ SolarDelta: Financial Health Check")
+st.markdown("Find out if silent hardware faults or micro-shading are costing you money.")
 
+st.subheader("Step 1: The 30-Second Quick Check")
+st.markdown("Enter your basic system details below. We will pull the 30-year local weather data from the National Renewable Energy Laboratory (NREL) and tell you exactly what your system *should* have produced last month.")
+
+col1, col2, col3 = st.columns(3)
+zip_code = col1.text_input("Zip Code", value="92130")
+system_size = col2.number_input("System Size (kW)", value=14.0, step=0.5)
+actual_kwh = col3.number_input("Last Month's Output (kWh)", value=550, step=50)
 
 # Initialize session state so the results stay on screen
 if 'calculated' not in st.session_state:
@@ -51,7 +60,7 @@ if st.session_state['calculated']:
             st.error("Error connecting to NREL database. Please try again.")
             financial_loss = 0.0
 
-    # The Lead Capture Form (runs independently of the calculate button)
+    # The Lead Capture Form
     st.subheader("Want the exact cause?")
     st.markdown("Enter your email. I will manually run a deep-dive diagnostic on your inverter data to pinpoint the exact tree, hardware fault, or grime causing the drop.")
     
@@ -65,16 +74,8 @@ if st.session_state['calculated']:
                 with open("leads.csv", "a") as file:
                     file.write(f"{datetime.datetime.now()},{email},{zip_code},{system_size},{actual_kwh},{financial_loss:.2f}\n")
                 
-                # 2. THE BACKEND LOG DUMP
+                # 2. THE BACKEND LOG DUMP (Invisible to users)
                 print("\n" + "="*50)
                 print(f"🚨 NEW LEAD CAPTURED: {email}")
                 print(f"📍 Zip: {zip_code} | ⚡ System: {system_size}kW")
-                print(f"📉 Actual: {actual_kwh}kWh | 💸 Est Loss: ${financial_loss:.2f}")
-                print("="*50 + "\n")
-                
-                st.success(f"Request received for {email}! I will email you within 24 hours with instructions on how to share your data.")
-            else:
-                st.error("Please enter a valid email address.")
-
-st.divider()
-st.caption("Privacy: We do not store your data. Calculations are done in real-time.")
+                print(f"📉 Actual: {actual_kwh}kWh | 💸 Est Loss: ${financial_loss:.2f
