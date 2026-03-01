@@ -60,3 +60,26 @@ if st.session_state['calculated']:
             financial_loss = 0.0
 
     st.subheader("Want the exact cause?")
+    st.markdown("Enter your email. I will manually run a deep-dive diagnostic on your inverter data to pinpoint the exact tree, hardware fault, or grime causing the drop.")
+    
+    with st.form("lead_capture_form"):
+        email = st.text_input("Email Address")
+        submitted = st.form_submit_button("Send me my Free Deep-Dive Report")
+        
+        if submitted:
+            if email:
+                with open("leads.csv", "a") as file:
+                    file.write(f"{datetime.datetime.now()},{email},{zip_code},{system_size},{actual_kwh},{financial_loss:.2f}\n")
+                
+                print("\n" + "="*50)
+                print(f"🚨 NEW LEAD CAPTURED: {email}")
+                print(f"📍 Zip: {zip_code} | ⚡ System: {system_size}kW")
+                print(f"📉 Actual: {actual_kwh}kWh | 💸 Est Loss: ${financial_loss:.2f}")
+                print("="*50 + "\n")
+                
+                st.success(f"Request received for {email}! I will email you within 24 hours with instructions on how to share your data.")
+            else:
+                st.error("Please enter a valid email address.")
+
+st.divider()
+st.caption("Privacy: We do not store your data. Calculations are done in real-time.")
