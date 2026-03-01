@@ -30,7 +30,7 @@ if st.session_state['calculated']:
             
             url = "https://developer.nrel.gov/api/pvwatts/v8.json"
             params = {
-                "api_key": "DEMO_KEY", "lat": lat, "lon": lon,
+                "api_key": "IHx5yMnfePpSUUs2pyvA7LhL2iIAGtY9lW9z0qYH", "lat": lat, "lon": lon,
                 "system_capacity": system_size, "azimuth": 280, "tilt": 20,
                 "array_type": 1, "module_type": 0, "losses": 14
             }
