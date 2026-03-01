@@ -6,6 +6,31 @@ import os
 
 st.set_page_config(page_title="SolarDelta | Free Solar Health Check", page_icon="☀️", layout="centered")
 
+import streamlit.components.v1 as components
+
+# --- GOOGLE ADS TRACKING TAG ---
+google_tag_html = """
+<script>
+    // Inject the external Google Tag script into the main window
+    var script1 = window.parent.document.createElement('script');
+    script1.src = "https://www.googletagmanager.com/gtag/js?id=AW-582333724";
+    script1.async = true;
+    window.parent.document.head.appendChild(script1);
+
+    // Inject the inline configuration script into the main window
+    var script2 = window.parent.document.createElement('script');
+    script2.innerHTML = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-582333724');
+    `;
+    window.parent.document.head.appendChild(script2);
+</script>
+"""
+components.html(google_tag_html, height=0, width=0)
+# -------------------------------
+
 st.title("☀️ SolarDelta: Financial Health Check")
 st.markdown("Find out if silent hardware faults or micro-shading are costing you money.")
 
