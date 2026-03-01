@@ -74,7 +74,7 @@ if st.session_state['calculated']:
                 print("\n" + "="*50)
                 print(f"🚨 NEW LEAD CAPTURED: {email}")
                 print(f"📍 Zip: {zip_code} | ⚡ System: {system_size}kW")
-                print(f"📉 Actual: {actual_kwh}kWh | 💸 Est Loss: ${financial_loss:.2f}")
+                print(f"📉 Actual: {actual_kwh}kWh | 💸 Est Loss: ${round(financial_loss, 2)}", flush=True)
                 print("="*50 + "\n")
                 
                 st.success(f"Request received for {email}! I will email you within 24 hours with instructions on how to share your data.")
